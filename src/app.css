@@ -75,6 +75,10 @@ button:focus-visible {
   align-items: center;
 }
 
+.event-container {
+  width: 440px;
+}
+
 .event-card {
   display: flex;
   flex-direction: column;
@@ -91,4 +95,24 @@ button:focus-visible {
   font-size: 1.5rem;
   font-weight: 600;
   color: white;
+}
+
+.container {
+  display: grid;
+  column-gap: 10px;
+  row-gap: 10px;
+  max-width: 900px;
+  grid-template-columns: 50% 50%;
+}
+
+.create-event {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #303030;
+  width: 400px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.create-event button {
+  margin-top: 10px;
 }

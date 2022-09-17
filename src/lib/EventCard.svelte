@@ -6,7 +6,7 @@
   export let event: Event;
 </script>
 
-<main>
+<main class="event-container">
   <div class="event-card">
     <p class="event-title">{event.title}</p>
     <SpacerL />
