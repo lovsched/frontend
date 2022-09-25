@@ -43,7 +43,7 @@
           />
         </Content>
         <Trigger>
-          <button
+          <button disabled={event.attendees.length === event.maxAttendees}
             >Prijavi me: {event.attendees
               ? event.attendees.length
               : 0}/{event.maxAttendees}</button

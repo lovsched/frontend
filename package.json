@@ -10,10 +10,8 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
-    "@rollup/plugin-replace": "^4.0.0",
     "@sveltejs/vite-plugin-svelte": "^1.0.2",
     "@tsconfig/svelte": "^3.0.0",
-    "dotenv": "^16.0.2",
     "svelte": "^3.49.0",
     "svelte-check": "^2.8.1",
     "svelte-preprocess": "^4.10.7",
@@ -23,8 +21,8 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
+    "dotenv": "^16.0.2",
     "sv-popup": "^0.2.5",
-    "svelte-navigator": "^3.2.2",
-    "svelte-notifications": "^0.9.97"
+    "svelte-navigator": "^3.2.2"
   }
 }

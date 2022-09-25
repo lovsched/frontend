@@ -8,7 +8,7 @@ import type {
   MigrateEvent,
 } from './types';
 
-axios.defaults.baseURL = 'http://localhost:1337/api';
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 async function getEvents(): Promise<Event[]> {
   const response = await axios.get<{ data: ApiEvent[] }>('/events?populate=*');

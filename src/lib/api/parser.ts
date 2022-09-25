@@ -26,7 +26,7 @@ export function parseEvent(apiEvent: ApiEvent): Event {
     organizerName: apiEvent.attributes.organizerName,
     organizerPhone: apiEvent.attributes.organizerPhone,
     organizerEmail: apiEvent.attributes.organizerEmail,
-    maxAttendees: apiEvent.attributes.maxAttendees,
+    maxAttendees: parseInt(apiEvent.attributes.maxAttendees),
     attendees: parseAttendees(apiEvent.attributes.attendees.data),
   };
 }

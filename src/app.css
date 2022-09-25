@@ -68,6 +68,13 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+button:disabled {
+  background-color: #252525;
+}
+button:disabled:hover {
+  border-color: transparent;
+  cursor: default;
+}
 
 .button-red {
   background-color: #e08181;

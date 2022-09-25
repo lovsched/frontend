@@ -38,7 +38,7 @@ export interface ApiEvent {
     readonly organizerName: string;
     readonly organizerPhone: string;
     readonly organizerEmail: string;
-    readonly maxAttendees: number;
+    readonly maxAttendees: string;
     readonly attendees: {
       readonly data: ApiAttendee[];
     };
