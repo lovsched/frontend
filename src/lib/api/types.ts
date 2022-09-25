@@ -17,6 +17,18 @@ export interface Attendee {
   email: string;
 }
 
+export interface MigrateEvent {
+  readonly id?: string;
+  title: string;
+  startTime: string;
+  location: string;
+  organizerName: string;
+  organizerPhone: string;
+  organizerEmail: string | null;
+  maxAttendees: number;
+  attendees?: string[];
+}
+
 export interface ApiEvent {
   readonly id: string;
   readonly attributes: {

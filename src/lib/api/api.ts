@@ -1,6 +1,12 @@
 import axios from 'axios';
 import { parseEvent } from './parser';
-import type { ApiAttendee, ApiEvent, Attendee, Event } from './types';
+import type {
+  ApiAttendee,
+  ApiEvent,
+  Attendee,
+  Event,
+  MigrateEvent,
+} from './types';
 
 axios.defaults.baseURL = 'http://localhost:1337/api';
 
@@ -39,6 +45,25 @@ async function createEvent(event: Event) {
 }
 
 async function archiveEvent(event: Event) {
+  let migrated: MigrateEvent = {
+    id: event.id,
+    title: event.title,
+    startTime: event.startTime,
+    location: event.location,
+    organizerName: event.organizerName,
+    organizerEmail: event.organizerEmail,
+    organizerPhone: event.organizerPhone,
+    maxAttendees: event.maxAttendees,
+  };
+
+  const eventAttendeeIDs: string[] = [];
+
+  event.attendees.forEach((attendee) => {
+    eventAttendeeIDs.push(attendee.id);
+  });
+
+  migrated.attendees = eventAttendeeIDs;
+
   const deleteExisting = await axios.delete(`/events/${event.id}`);
   const response = await axios.post('/archives', {
     data: event,

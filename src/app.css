@@ -73,6 +73,10 @@ button:focus-visible {
   background-color: #e08181;
 }
 
+.button-green {
+  background-color: #91c977;
+}
+
 .header {
   display: flex;
   justify-content: space-between;

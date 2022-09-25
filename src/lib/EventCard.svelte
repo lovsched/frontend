@@ -7,6 +7,7 @@
   import CreateAttendeeModal from './CreateAttendeeModal.svelte';
 
   let closeModal: boolean = false;
+  let closeAttendeesModal: boolean = false;
 
   export let event: Event;
   export let reloadEvents: Function;
@@ -31,15 +32,16 @@
       </p>
     {/if}
     <SpacerL />
-    <Modal small={true} close={closeModal} button={false}>
-      <Content>
-        <CreateAttendeeModal
-          {event}
-          closeModal={() => (closeModal = true)}
-          reloadEvents={() => reloadEvents()}
-        />
-      </Content>
-      <div class="ec-actions">
+
+    <div class="ec-actions">
+      <Modal small={true} close={closeModal} button={false}>
+        <Content>
+          <CreateAttendeeModal
+            {event}
+            closeModal={() => (closeModal = true)}
+            reloadEvents={() => reloadEvents()}
+          />
+        </Content>
         <Trigger>
           <button
             >Prijavi me: {event.attendees
@@ -47,14 +49,46 @@
               : 0}/{event.maxAttendees}</button
           >
         </Trigger>
-        <button
-          class="button-red"
-          on:click={async () => {
-            await archiveEvent(event);
-            reloadEvents();
-          }}>Arhiviraj</button
-        >
-      </div>
-    </Modal>
+      </Modal>
+      <Modal small={true} close={closeAttendeesModal} button={false}>
+        <Content>
+          <div class="attendees-container">
+            {#each event.attendees as attendee}
+              <p>{attendee.name}</p>
+              <ul>
+                <li>{attendee.number}</li>
+                <li>{attendee.email}</li>
+              </ul>
+            {/each}
+          </div>
+        </Content>
+        <Trigger>
+          <button class="button-green">Prijavljeni</button>
+        </Trigger>
+      </Modal>
+      <button
+        class="button-red"
+        on:click={async () => {
+          await archiveEvent(event);
+          reloadEvents();
+        }}>Arhiviraj</button
+      >
+    </div>
   </div>
 </main>
+
+<style>
+  .attendees-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1a1a1a;
+    height: auto;
+    padding: 1rem;
+    width: auto;
+  }
+
+  .attendees-container > p {
+    font-size: 1.5rem;
+  }
+</style>
