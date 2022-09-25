@@ -24,6 +24,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "sv-popup": "^0.2.5",
+    "svelte-navigator": "^3.2.2",
     "svelte-notifications": "^0.9.97"
   }
 }

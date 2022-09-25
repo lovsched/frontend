@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { archiveEvent } from './api/api';
+  import { unarchiveEvent } from './api/api';
   import type { Event } from './api/types';
   import SpacerL from './spacers/SpacerL.svelte';
   import SpacerM from './spacers/SpacerM.svelte';
@@ -28,13 +28,12 @@
     {/if}
     <SpacerL />
     <div class="ec-actions">
-      <button>Prijavi me: {event.attendeeCount}/{event.maxAttendees}</button>
       <button
         class="button-red"
         on:click={async () => {
-          await archiveEvent(event);
+          await unarchiveEvent(event);
           reloadEvents();
-        }}>Arhiviraj</button
+        }}>Odarhiviraj</button
       >
     </div>
   </div>

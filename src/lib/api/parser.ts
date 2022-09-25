@@ -2,6 +2,7 @@ import type { ApiEvent, Event } from './types';
 
 export function parseEvent(apiEvent: ApiEvent): Event {
   return {
+    id: apiEvent.id,
     title: apiEvent.attributes.title,
     startTime: apiEvent.attributes.startTime,
     location: apiEvent.attributes.location,

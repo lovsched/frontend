@@ -69,6 +69,10 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.button-red {
+  background-color: #e08181;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -121,4 +125,11 @@ button:focus-visible {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.ec-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
