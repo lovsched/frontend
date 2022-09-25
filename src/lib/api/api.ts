@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { parseEvent } from './parser';
-import type { ApiEvent, Event } from './types';
+import type { ApiAttendee, ApiEvent, Attendee, Event } from './types';
 
 axios.defaults.baseURL = 'http://localhost:1337/api';
 
 async function getEvents(): Promise<Event[]> {
-  const response = await axios.get<{ data: ApiEvent[] }>('/events');
+  const response = await axios.get<{ data: ApiEvent[] }>('/events?populate=*');
 
   const events: Event[] = [];
 
@@ -17,7 +17,9 @@ async function getEvents(): Promise<Event[]> {
 }
 
 async function getArchivedEvents(): Promise<Event[]> {
-  const response = await axios.get<{ data: ApiEvent[] }>('/archives');
+  const response = await axios.get<{ data: ApiEvent[] }>(
+    '/archives?populate=*',
+  );
 
   const events: Event[] = [];
 
@@ -56,10 +58,38 @@ async function unarchiveEvent(event: Event) {
   console.log(response);
 }
 
+async function createAttendee(attendee: Attendee) {
+  const response = await axios.post<{ data: ApiAttendee }>('/attendees', {
+    data: attendee,
+  });
+
+  console.log(response);
+
+  return response.data.data;
+}
+
+async function signupForEvent(event: Event, attendeeID: string) {
+  const eventAttendeeIDs: string[] = [];
+
+  event.attendees.forEach((attendee) => {
+    eventAttendeeIDs.push(attendee.id);
+  });
+
+  eventAttendeeIDs.push(attendeeID);
+
+  const response = await axios.put(`/events/${event.id}`, {
+    data: { attendees: eventAttendeeIDs },
+  });
+
+  console.log(response);
+}
+
 export {
   getEvents,
   getArchivedEvents,
   createEvent,
   archiveEvent,
   unarchiveEvent,
+  createAttendee,
+  signupForEvent,
 };

@@ -1,33 +1,31 @@
 <script lang="ts">
   import SpacerL from './spacers/SpacerL.svelte';
+  import type { Attendee } from './api/types';
+  import { createAttendee, signupForEvent } from './api/api';
   import type { Event } from './api/types';
-  import { createEvent } from './api/api';
 
-  let title: string = '';
-  let location: string = '';
-  let organizerName: string = '';
-  let organizerPhone: string = '';
-  let organizerEmail: string = '';
-  let maxAttendees: number = null;
-  let startTime: string = '';
+  let name: string = '';
+  let number: string = '';
+  let email: string = '';
 
+  export let event: Event;
   export let closeModal: Function;
   export let reloadEvents: Function;
 
+  console.log(event);
+
   const onConfirm = async () => {
-    const event: Event = {
-      title,
-      location,
-      organizerName,
-      organizerPhone,
-      organizerEmail,
-      maxAttendees,
-      startTime,
+    const attendee: Attendee = {
+      name,
+      number,
+      email,
     };
 
     try {
-      const response = await createEvent(event);
+      const response = await createAttendee(attendee);
       console.log(response);
+      const resp = await signupForEvent(event, response.id);
+      console.log(resp);
       closeModal();
       reloadEvents();
     } catch (e) {
@@ -38,34 +36,10 @@
 </script>
 
 <div class="form">
-  <div class="input-container">
-    <input
-      id="event-name"
-      bind:value={title}
-      class="input"
-      type="text"
-      placeholder=" "
-    />
-    <div class="cut" />
-    <label for="event-name" class="placeholder">Naslov Dogodka</label>
-  </div>
-
-  <div class="input-container ic2">
-    <input
-      id="location"
-      bind:value={location}
-      class="input"
-      type="text"
-      placeholder=" "
-    />
-    <div class="cut cut-medium" />
-    <label for="location" class="placeholder">Lokacija</label>
-  </div>
-
   <div class="input-container ic2">
     <input
       id="name"
-      bind:value={organizerName}
+      bind:value={name}
       class="input"
       type="text"
       placeholder=" "
@@ -77,7 +51,7 @@
   <div class="input-container ic2">
     <input
       id="phone"
-      bind:value={organizerPhone}
+      bind:value={number}
       class="input"
       type="text"
       placeholder=" "
@@ -89,7 +63,7 @@
   <div class="input-container ic2">
     <input
       id="email"
-      bind:value={organizerEmail}
+      bind:value={email}
       class="input"
       type="text"
       placeholder=" "
@@ -98,29 +72,6 @@
     <label for="email" class="placeholder">Email</label>
   </div>
 
-  <div class="input-container ic2">
-    <input
-      id="attendees"
-      bind:value={maxAttendees}
-      class="input"
-      type="text"
-      placeholder=" "
-    />
-    <div class="cut cut-medium" />
-    <label for="attendees" class="placeholder">Št. oseb</label>
-  </div>
-
-  <div class="input-container ic2">
-    <input
-      id="date"
-      bind:value={startTime}
-      class="input"
-      type="text"
-      placeholder=""
-    />
-    <div class="cut cut-short" />
-    <label for="date" class="placeholder">Čas</label>
-  </div>
   <SpacerL />
   <div class="actions">
     <button on:click={() => onConfirm()}>Potrdi</button>
@@ -179,10 +130,6 @@
 
   .cut-mail {
     width: 50px;
-  }
-
-  .cut-short {
-    width: 40px;
   }
 
   .input:focus ~ .cut,

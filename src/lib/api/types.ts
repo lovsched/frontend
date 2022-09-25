@@ -7,7 +7,14 @@ export interface Event {
   organizerPhone: string;
   organizerEmail: string | null;
   maxAttendees: number;
-  attendeeCount?: number;
+  attendees?: Attendee[];
+}
+
+export interface Attendee {
+  id?: string;
+  name: string;
+  number: string;
+  email: string;
 }
 
 export interface ApiEvent {
@@ -20,6 +27,17 @@ export interface ApiEvent {
     readonly organizerPhone: string;
     readonly organizerEmail: string;
     readonly maxAttendees: number;
-    readonly attendeeCount: number | null;
+    readonly attendees: {
+      readonly data: ApiAttendee[];
+    };
+  };
+}
+
+export interface ApiAttendee {
+  readonly id: string;
+  readonly attributes: {
+    readonly name: string;
+    readonly number: string;
+    readonly email: string;
   };
 }

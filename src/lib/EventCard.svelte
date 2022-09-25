@@ -3,6 +3,10 @@
   import type { Event } from './api/types';
   import SpacerL from './spacers/SpacerL.svelte';
   import SpacerM from './spacers/SpacerM.svelte';
+  import { Modal, Content, Trigger } from 'sv-popup';
+  import CreateAttendeeModal from './CreateAttendeeModal.svelte';
+
+  let closeModal: boolean = false;
 
   export let event: Event;
   export let reloadEvents: Function;
@@ -27,15 +31,30 @@
       </p>
     {/if}
     <SpacerL />
-    <div class="ec-actions">
-      <button>Prijavi me: {event.attendeeCount}/{event.maxAttendees}</button>
-      <button
-        class="button-red"
-        on:click={async () => {
-          await archiveEvent(event);
-          reloadEvents();
-        }}>Arhiviraj</button
-      >
-    </div>
+    <Modal small={true} close={closeModal} button={false}>
+      <Content>
+        <CreateAttendeeModal
+          {event}
+          closeModal={() => (closeModal = true)}
+          reloadEvents={() => reloadEvents()}
+        />
+      </Content>
+      <div class="ec-actions">
+        <Trigger>
+          <button
+            >Prijavi me: {event.attendees
+              ? event.attendees.length
+              : 0}/{event.maxAttendees}</button
+          >
+        </Trigger>
+        <button
+          class="button-red"
+          on:click={async () => {
+            await archiveEvent(event);
+            reloadEvents();
+          }}>Arhiviraj</button
+        >
+      </div>
+    </Modal>
   </div>
 </main>
