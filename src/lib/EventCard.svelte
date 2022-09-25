@@ -56,8 +56,8 @@
             {#each event.attendees as attendee}
               <p>{attendee.name}</p>
               <ul>
-                <li>{attendee.number}</li>
-                <li>{attendee.email}</li>
+                <li><a href="tel:{attendee.number}">{attendee.number}</a></li>
+                <li><a href="tel:{attendee.email}">{attendee.email}</a></li>
               </ul>
             {/each}
           </div>
