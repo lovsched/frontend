@@ -1,12 +1,12 @@
 export interface Event {
-  readonly title: string;
-  readonly startTime: string;
-  readonly location: string;
-  readonly organizerName: string;
-  readonly organizerPhone: string;
-  readonly organizerEmail: string | null;
-  readonly maxAttendees: number;
-  readonly attendeeCount: number;
+  title: string;
+  startTime: string;
+  location: string;
+  organizerName: string;
+  organizerPhone: string;
+  organizerEmail: string | null;
+  maxAttendees: number;
+  attendeeCount?: number;
 }
 
 export interface ApiEvent {

@@ -102,7 +102,7 @@ button:focus-visible {
   column-gap: 10px;
   row-gap: 10px;
   max-width: 900px;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: auto auto auto;
 }
 
 .create-event {
@@ -115,4 +115,10 @@ button:focus-visible {
 
 .create-event button {
   margin-top: 10px;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

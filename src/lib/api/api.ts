@@ -16,4 +16,12 @@ async function getEvents(): Promise<Event[]> {
   return events;
 }
 
-export { getEvents };
+async function createEvent(event: Event) {
+  const response = await axios.post('/events', {
+    data: event,
+  });
+
+  console.log(response);
+}
+
+export { getEvents, createEvent };
