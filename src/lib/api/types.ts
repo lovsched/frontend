@@ -25,7 +25,7 @@ export interface MigrateEvent {
   organizerName: string;
   organizerPhone: string;
   organizerEmail: string | null;
-  maxAttendees: number;
+  maxAttendees: string;
   attendees?: string[];
 }
 

@@ -14,6 +14,23 @@
   export let closeModal: Function;
   export let reloadEvents: Function;
 
+  function isNumber(value) {
+    return !isNaN(value);
+  }
+
+  function handleInput(e) {
+    let oldValue = maxAttendees;
+    let newValue = e.target.value;
+
+    console.log(oldValue, newValue, 'isNumber', isNumber(newValue));
+
+    if (isNumber(newValue) && newValue.length < 17) {
+      maxAttendees = newValue;
+    } else {
+      maxAttendees = oldValue;
+    }
+  }
+
   const onConfirm = async () => {
     const event: Event = {
       title,
@@ -102,8 +119,10 @@
     <input
       id="attendees"
       bind:value={maxAttendees}
+      on:input|preventDefault={handleInput}
       class="input"
-      type="text"
+      type="number"
+      min={0}
       placeholder=" "
     />
     <div class="cut cut-medium" />

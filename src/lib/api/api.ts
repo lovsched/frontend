@@ -53,7 +53,7 @@ async function archiveEvent(event: Event) {
     organizerName: event.organizerName,
     organizerEmail: event.organizerEmail,
     organizerPhone: event.organizerPhone,
-    maxAttendees: event.maxAttendees,
+    maxAttendees: event.maxAttendees.toString(),
   };
 
   const eventAttendeeIDs: string[] = [];
@@ -66,7 +66,7 @@ async function archiveEvent(event: Event) {
 
   const deleteExisting = await axios.delete(`/events/${event.id}`);
   const response = await axios.post('/archives', {
-    data: event,
+    data: migrated,
   });
 
   console.log(deleteExisting);
