@@ -4,7 +4,35 @@
   import EventCard from './EventCard.svelte';
   import Header from './Header.svelte';
 
-  let events: Event[] = [];
+  let events: Event[] = [{
+  title: "test",
+  startTime: "test",
+  location: "test",
+  organizerName: "test",
+  organizerPhone: "test",
+  organizerEmail: "test",
+  maxAttendees: 5,
+  attendees: [{
+  name: "test",
+  number: "test",
+  email: "test",
+}],
+},
+{
+  title: "test",
+  startTime: "test",
+  location: "test",
+  organizerName: "test",
+  organizerPhone: "test",
+  organizerEmail: "test",
+  maxAttendees: 5,
+  attendees: [{
+  name: "test",
+  number: "test",
+  email: "test",
+}],
+},
+];
 
   const loadEvents = async () => {
     events = await getEvents();

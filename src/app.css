@@ -144,3 +144,17 @@ button:disabled:hover {
   align-items: center;
   width: 100%;
 }
+
+@media only screen and (max-width: 960px) {
+  .container {
+    display: grid;
+    row-gap: 10px;
+    max-width: 950px;
+    grid-template-columns: 100%;
+    justify-items: center;
+  }
+  .event-container {
+    transform: scale(1.5);
+    margin-top: 150px;
+  }
+}
