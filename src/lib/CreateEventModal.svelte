@@ -87,8 +87,8 @@
       type="text"
       placeholder=" "
     />
-    <div class="cut" />
-    <label for="name" class="placeholder">Ime in Priimek</label>
+    <div class="cut cut-xlarge" />
+    <label for="name" class="placeholder">Organizator (Ime in Priimek)</label>
   </div>
 
   <div class="input-container ic2">
@@ -125,8 +125,8 @@
       min={0}
       placeholder=" "
     />
-    <div class="cut cut-medium" />
-    <label for="attendees" class="placeholder">Št. oseb</label>
+    <div class="cut cut-large" />
+    <label for="attendees" class="placeholder">Zaželjeno Št. oseb</label>
   </div>
 
   <div class="input-container ic2">
@@ -135,10 +135,10 @@
       bind:value={startTime}
       class="input"
       type="text"
-      placeholder=""
+      placeholder=" "
     />
-    <div class="cut cut-short" />
-    <label for="date" class="placeholder">Čas</label>
+    <div class="cut cut-mail" />
+    <label for="date" class="placeholder">Kdaj</label>
   </div>
   <SpacerL />
   <div class="actions">
@@ -200,8 +200,12 @@
     width: 50px;
   }
 
-  .cut-short {
-    width: 40px;
+  .cut-large {
+    width: 120px;
+  }
+
+  .cut-xlarge {
+    width: 170px;
   }
 
   .input:focus ~ .cut,
