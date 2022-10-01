@@ -51,7 +51,7 @@ async function getAttendees(): Promise<Attendee[]> {
 }
 
 async function createEvent(event: CreateEvent) {
-  const response = await axios.post('/events', {
+  await axios.post('/events', {
     data: event,
   });
 }
@@ -74,25 +74,17 @@ async function archiveEvent(event: Event) {
 
   migrated.attendees = eventAttendeeIDs;
 
-  const deleteExisting = await axios.delete(`/events/${event.id}`);
-  const response = await axios.post('/archives', {
+  await axios.delete(`/events/${event.id}`);
+  await axios.post('/archives', {
     data: migrated,
   });
 }
 
 async function unarchiveEvent(event: Event) {
-  const deleteExisting = await axios.delete(`/archives/${event.id}`);
-  const response = await axios.post('/events', {
+  await axios.delete(`/archives/${event.id}`);
+  await axios.post('/events', {
     data: event,
   });
-}
-
-async function createAttendee(attendee: Attendee) {
-  const response = await axios.post<{ data: ApiAttendee }>('/attendees', {
-    data: attendee,
-  });
-
-  return response.data.data;
 }
 
 async function signupForEvent(event: Event, attendeeID: string) {
@@ -104,7 +96,7 @@ async function signupForEvent(event: Event, attendeeID: string) {
 
   eventAttendeeIDs.push(attendeeID);
 
-  const response = await axios.put(`/events/${event.id}`, {
+  await axios.put(`/events/${event.id}`, {
     data: { attendees: eventAttendeeIDs },
   });
 }
@@ -115,7 +107,6 @@ export {
   createEvent,
   archiveEvent,
   unarchiveEvent,
-  createAttendee,
   signupForEvent,
   getAttendees,
 };

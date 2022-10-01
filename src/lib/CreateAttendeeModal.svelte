@@ -1,7 +1,7 @@
 <script lang="ts">
   import SpacerL from './spacers/SpacerL.svelte';
   import type { Attendee } from './api/types';
-  import { createAttendee, getAttendees, signupForEvent } from './api/api';
+  import { getAttendees, signupForEvent } from './api/api';
   import type { Event } from './api/types';
   import { onMount } from 'svelte';
 
@@ -13,15 +13,8 @@
   export let reloadEvents: Function;
 
   const onConfirm = async () => {
-    const create: Attendee = {
-      name: attendee.name,
-      number: attendee.number,
-      email: attendee.email,
-    };
-
     try {
-      const response = await createAttendee(create);
-      await signupForEvent(event, response.id);
+      await signupForEvent(event, attendee.id);
       closeModal();
       reloadEvents();
     } catch (e) {
