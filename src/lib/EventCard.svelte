@@ -23,16 +23,16 @@
     <p>{event.startTime}</p>
     <p>Lokacija: {event.location}</p>
     <SpacerM />
-    <p>Organizator: {event.organizer.name}</p>
+    <p>Organizator: {event.organizer.name ?? 'Ni podatka'}</p>
     <p>
-      Telefon: <a href="tel:${event.organizer.number}"
-        >{event.organizer.number}</a
+      Telefon: <a href="tel:${event.organizer.number ?? 'Ni podatka'}"
+        >{event.organizer.number ?? 'Ni podatka'}</a
       >
     </p>
-    {#if event.organizer.email}
+    {#if event.organizer.email ?? 'Ni podatka'}
       <p>
-        Email: <a href="mailto:${event.organizer.email}"
-          >{event.organizer.email}</a
+        Email: <a href="mailto:${event.organizer.email ?? 'Ni podatka'}"
+          >{event.organizer.email ?? 'Ni podatka'}</a
         >
       </p>
     {/if}
