@@ -15,7 +15,9 @@
 
 <main class="event-container">
   <div class="event-card">
-    <p class="event-title">{event.title}</p>
+    <div class="event-header">
+      <p class="event-title">{event.title}</p> <button>Uredi</button>
+    </div>
     <SpacerL />
     <p>{event.startTime}</p>
     <p>Lokacija: {event.location}</p>
@@ -60,7 +62,9 @@
                 <li><a href="tel:{attendee.email}">{attendee.email}</a></li>
               </ul>
             {/each}
+            <button class="button-green">Pošlji mail</button>
           </div>
+          
         </Content>
         <Trigger>
           <button class="button-green">Prijavljeni</button>
@@ -73,6 +77,7 @@
           reloadEvents();
         }}>Arhiviraj</button
       >
+      
     </div>
   </div>
 </main>
@@ -82,10 +87,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #1a1a1a;
+    background-color: #303030;
     height: auto;
     padding: 1rem;
     width: auto;
+    border: solid 2px white;
+    border-radius: 10px;
   }
 
   .attendees-container > p {

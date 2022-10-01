@@ -74,8 +74,8 @@
 
   <SpacerL />
   <div class="actions">
-    <button on:click={() => onConfirm()}>Potrdi</button>
-    <button on:click={() => closeModal()}>Zapri</button>
+    <button class="button-green" on:click={() => onConfirm()}>Potrdi</button>
+    <button class="button-red" on:click={() => closeModal()}>Zapri</button>
   </div>
 </div>
 
@@ -87,6 +87,7 @@
     height: auto;
     padding: 20px;
     width: auto;
+    border: solid 2px white;
   }
 
   .input-container {

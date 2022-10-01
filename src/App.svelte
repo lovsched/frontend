@@ -4,7 +4,7 @@
   import Archive from './lib/Archive.svelte';
 </script>
 
-<Router>
+<Router primary={false}>
   <Route path="/" component={Home} />
   <Route path="/archive" component={Archive} />
 </Router>
