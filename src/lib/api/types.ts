@@ -3,11 +3,19 @@ export interface Event {
   title: string;
   startTime: string;
   location: string;
-  organizerName: string;
-  organizerPhone: string;
-  organizerEmail: string | null;
+  organizer?: Attendee | null;
   maxAttendees: number;
   attendees?: Attendee[];
+}
+
+export interface CreateEvent {
+  readonly id?: string;
+  title: string;
+  startTime: string;
+  location: string;
+  organizer: string;
+  maxAttendees: number;
+  attendees?: string[];
 }
 
 export interface Attendee {
@@ -22,9 +30,7 @@ export interface MigrateEvent {
   title: string;
   startTime: string;
   location: string;
-  organizerName: string;
-  organizerPhone: string;
-  organizerEmail: string | null;
+  organizer: string;
   maxAttendees: string;
   attendees?: string[];
 }
@@ -35,11 +41,11 @@ export interface ApiEvent {
     readonly title: string;
     readonly startTime: string;
     readonly location: string;
-    readonly organizerName: string;
-    readonly organizerPhone: string;
-    readonly organizerEmail: string;
+    readonly organizer?: {
+      readonly data?: ApiAttendee | null;
+    };
     readonly maxAttendees: string;
-    readonly attendees: {
+    readonly attendees?: {
       readonly data: ApiAttendee[];
     };
   };

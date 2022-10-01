@@ -16,20 +16,23 @@
 <main class="event-container">
   <div class="event-card">
     <div class="event-header">
-      <p class="event-title">{event.title}</p> <button>Uredi</button>
+      <p class="event-title">{event.title}</p>
+      <button>Uredi</button>
     </div>
     <SpacerL />
     <p>{event.startTime}</p>
     <p>Lokacija: {event.location}</p>
     <SpacerM />
-    <p>Organizator: {event.organizerName}</p>
+    <p>Organizator: {event.organizer.name}</p>
     <p>
-      Telefon: <a href="tel:${event.organizerPhone}">{event.organizerPhone}</a>
+      Telefon: <a href="tel:${event.organizer.number}"
+        >{event.organizer.number}</a
+      >
     </p>
-    {#if event.organizerEmail}
+    {#if event.organizer.email}
       <p>
-        Email: <a href="mailto:${event.organizerEmail}"
-          >{event.organizerEmail}</a
+        Email: <a href="mailto:${event.organizer.email}"
+          >{event.organizer.email}</a
         >
       </p>
     {/if}
@@ -64,7 +67,6 @@
             {/each}
             <button class="button-green">Pošlji mail</button>
           </div>
-          
         </Content>
         <Trigger>
           <button class="button-green">Prijavljeni</button>
@@ -77,7 +79,6 @@
           reloadEvents();
         }}>Arhiviraj</button
       >
-      
     </div>
   </div>
 </main>

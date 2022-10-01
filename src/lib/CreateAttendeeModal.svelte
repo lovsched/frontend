@@ -1,31 +1,27 @@
 <script lang="ts">
   import SpacerL from './spacers/SpacerL.svelte';
   import type { Attendee } from './api/types';
-  import { createAttendee, signupForEvent } from './api/api';
+  import { createAttendee, getAttendees, signupForEvent } from './api/api';
   import type { Event } from './api/types';
+  import { onMount } from 'svelte';
 
-  let name: string = '';
-  let number: string = '';
-  let email: string = '';
+  let attendeeList: Attendee[] = [];
+  let attendee: Attendee;
 
   export let event: Event;
   export let closeModal: Function;
   export let reloadEvents: Function;
 
-  console.log(event);
-
   const onConfirm = async () => {
-    const attendee: Attendee = {
-      name,
-      number,
-      email,
+    const create: Attendee = {
+      name: attendee.name,
+      number: attendee.number,
+      email: attendee.email,
     };
 
     try {
-      const response = await createAttendee(attendee);
-      console.log(response);
-      const resp = await signupForEvent(event, response.id);
-      console.log(resp);
+      const response = await createAttendee(create);
+      await signupForEvent(event, response.id);
       closeModal();
       reloadEvents();
     } catch (e) {
@@ -33,43 +29,32 @@
       alert('Prišlo je do napake. Preverite vsa polja.');
     }
   };
+
+  onMount(async () => {
+    const resp: Attendee[] = await getAttendees();
+
+    attendeeList = resp;
+  });
 </script>
 
 <div class="form">
   <div class="input-container ic2">
-    <input
-      id="name"
-      bind:value={name}
-      class="input"
-      type="text"
-      placeholder=" "
-    />
-    <div class="cut" />
-    <label for="name" class="placeholder">Ime in Priimek</label>
-  </div>
-
-  <div class="input-container ic2">
-    <input
-      id="phone"
-      bind:value={number}
-      class="input"
-      type="text"
-      placeholder=" "
-    />
-    <div class="cut cut-medium" />
-    <label for="phone" class="placeholder">Telefon</label>
-  </div>
-
-  <div class="input-container ic2">
-    <input
-      id="email"
-      bind:value={email}
-      class="input"
-      type="text"
-      placeholder=" "
-    />
-    <div class="cut cut-mail" />
-    <label for="email" class="placeholder">Email</label>
+    <div class="input-container ic2">
+      <select
+        id="organizer"
+        class="input"
+        bind:value={attendee}
+        placeholder=" "
+      >
+        {#each attendeeList as attendee}
+          <option value={attendee}>
+            {attendee.name}
+          </option>
+        {/each}
+      </select>
+      <div class="cut cut-mail" />
+      <label for="email" class="placeholder">Član</label>
+    </div>
   </div>
 
   <SpacerL />
@@ -123,10 +108,6 @@
     transform: translateY(0);
     transition: transform 200ms;
     width: 105px;
-  }
-
-  .cut-medium {
-    width: 65px;
   }
 
   .cut-mail {

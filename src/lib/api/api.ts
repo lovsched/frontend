@@ -1,14 +1,16 @@
 import axios from 'axios';
-import { parseEvent } from './parser';
+import { parseAttendee, parseEvent } from './parser';
 import type {
   ApiAttendee,
   ApiEvent,
   Attendee,
   Event,
   MigrateEvent,
+  CreateEvent,
 } from './types';
 
-axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+axios.defaults.baseURL =
+  import.meta.env.VITE_API_URL || 'http://localhost:1337/api';
 
 async function getEvents(): Promise<Event[]> {
   const response = await axios.get<{ data: ApiEvent[] }>('/events?populate=*');
@@ -36,12 +38,22 @@ async function getArchivedEvents(): Promise<Event[]> {
   return events;
 }
 
-async function createEvent(event: Event) {
+async function getAttendees(): Promise<Attendee[]> {
+  const response = await axios.get<{ data: ApiAttendee[] }>('/attendees');
+
+  const attendees: Attendee[] = [];
+
+  response.data.data.forEach((apiAttendee: ApiAttendee) => {
+    attendees.push(parseAttendee(apiAttendee));
+  });
+
+  return attendees;
+}
+
+async function createEvent(event: CreateEvent) {
   const response = await axios.post('/events', {
     data: event,
   });
-
-  console.log(response);
 }
 
 async function archiveEvent(event: Event) {
@@ -50,9 +62,7 @@ async function archiveEvent(event: Event) {
     title: event.title,
     startTime: event.startTime,
     location: event.location,
-    organizerName: event.organizerName,
-    organizerEmail: event.organizerEmail,
-    organizerPhone: event.organizerPhone,
+    organizer: event.organizer.id,
     maxAttendees: event.maxAttendees.toString(),
   };
 
@@ -68,9 +78,6 @@ async function archiveEvent(event: Event) {
   const response = await axios.post('/archives', {
     data: migrated,
   });
-
-  console.log(deleteExisting);
-  console.log(response);
 }
 
 async function unarchiveEvent(event: Event) {
@@ -78,17 +85,12 @@ async function unarchiveEvent(event: Event) {
   const response = await axios.post('/events', {
     data: event,
   });
-
-  console.log(deleteExisting);
-  console.log(response);
 }
 
 async function createAttendee(attendee: Attendee) {
   const response = await axios.post<{ data: ApiAttendee }>('/attendees', {
     data: attendee,
   });
-
-  console.log(response);
 
   return response.data.data;
 }
@@ -105,8 +107,6 @@ async function signupForEvent(event: Event, attendeeID: string) {
   const response = await axios.put(`/events/${event.id}`, {
     data: { attendees: eventAttendeeIDs },
   });
-
-  console.log(response);
 }
 
 export {
@@ -117,4 +117,5 @@ export {
   unarchiveEvent,
   createAttendee,
   signupForEvent,
+  getAttendees,
 };

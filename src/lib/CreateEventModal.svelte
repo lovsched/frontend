@@ -1,15 +1,16 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import SpacerL from './spacers/SpacerL.svelte';
-  import type { Event } from './api/types';
-  import { createEvent } from './api/api';
+  import type { Attendee, CreateEvent } from './api/types';
+  import { createEvent, getAttendees } from './api/api';
 
   let title: string = '';
   let location: string = '';
-  let organizerName: string = '';
-  let organizerPhone: string = '';
-  let organizerEmail: string = '';
   let maxAttendees: number = null;
   let startTime: string = '';
+
+  let attendeeList: Attendee[] = [];
+  let organizer: Attendee;
 
   export let closeModal: Function;
   export let reloadEvents: Function;
@@ -22,8 +23,6 @@
     let oldValue = maxAttendees;
     let newValue = e.target.value;
 
-    console.log(oldValue, newValue, 'isNumber', isNumber(newValue));
-
     if (isNumber(newValue) && newValue.length < 17) {
       maxAttendees = newValue;
     } else {
@@ -32,19 +31,16 @@
   }
 
   const onConfirm = async () => {
-    const event: Event = {
+    const event: CreateEvent = {
       title,
       location,
-      organizerName,
-      organizerPhone,
-      organizerEmail,
+      organizer: organizer.id,
       maxAttendees,
       startTime,
     };
 
     try {
-      const response = await createEvent(event);
-      console.log(response);
+      await createEvent(event);
       closeModal();
       reloadEvents();
     } catch (e) {
@@ -52,6 +48,12 @@
       alert('Prišlo je do napake. Preverite vsa polja.');
     }
   };
+
+  onMount(async () => {
+    const resp: Attendee[] = await getAttendees();
+
+    attendeeList = resp;
+  });
 </script>
 
 <div class="form">
@@ -80,39 +82,15 @@
   </div>
 
   <div class="input-container ic2">
-    <input
-      id="name"
-      bind:value={organizerName}
-      class="input"
-      type="text"
-      placeholder=" "
-    />
-    <div class="cut cut-xlarge" />
-    <label for="name" class="placeholder">Organizator (Ime in Priimek)</label>
-  </div>
-
-  <div class="input-container ic2">
-    <input
-      id="phone"
-      bind:value={organizerPhone}
-      class="input"
-      type="text"
-      placeholder=" "
-    />
-    <div class="cut cut-medium" />
-    <label for="phone" class="placeholder">Telefon</label>
-  </div>
-
-  <div class="input-container ic2">
-    <input
-      id="email"
-      bind:value={organizerEmail}
-      class="input"
-      type="text"
-      placeholder=" "
-    />
+    <select id="organizer" class="input" bind:value={organizer} placeholder=" ">
+      {#each attendeeList as attendee}
+        <option value={attendee}>
+          {attendee.name}
+        </option>
+      {/each}
+    </select>
     <div class="cut cut-mail" />
-    <label for="email" class="placeholder">Email</label>
+    <label for="email" class="placeholder">Organizator</label>
   </div>
 
   <div class="input-container ic2">
@@ -203,10 +181,6 @@
 
   .cut-large {
     width: 120px;
-  }
-
-  .cut-xlarge {
-    width: 170px;
   }
 
   .input:focus ~ .cut,

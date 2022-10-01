@@ -1,16 +1,24 @@
 import type { ApiAttendee, Attendee, ApiEvent, Event } from './types';
 
+export function parseAttendee(apiAttendee: ApiAttendee | null): Attendee {
+  if (apiAttendee === null) return null;
+
+  return {
+    id: apiAttendee.id,
+    name: apiAttendee.attributes.name,
+    number: apiAttendee.attributes.number,
+    email: apiAttendee.attributes.email,
+  };
+}
+
 export function parseEvent(apiEvent: ApiEvent): Event {
-  function parseAttendees(attendees: ApiAttendee[]) {
+  function parseAttendees(attendees: ApiAttendee[] | null) {
+    if (attendees === null) return null;
+
     const parsed: Attendee[] = [];
 
     attendees.forEach((attendee: ApiAttendee) => {
-      const temp: Attendee = {
-        id: attendee.id,
-        name: attendee.attributes.name,
-        number: attendee.attributes.number,
-        email: attendee.attributes.email,
-      };
+      const temp: Attendee = parseAttendee(attendee);
 
       parsed.push(temp);
     });
@@ -23,9 +31,7 @@ export function parseEvent(apiEvent: ApiEvent): Event {
     title: apiEvent.attributes.title,
     startTime: apiEvent.attributes.startTime,
     location: apiEvent.attributes.location,
-    organizerName: apiEvent.attributes.organizerName,
-    organizerPhone: apiEvent.attributes.organizerPhone,
-    organizerEmail: apiEvent.attributes.organizerEmail,
+    organizer: parseAttendee(apiEvent.attributes.organizer.data),
     maxAttendees: parseInt(apiEvent.attributes.maxAttendees),
     attendees: parseAttendees(apiEvent.attributes.attendees.data),
   };
