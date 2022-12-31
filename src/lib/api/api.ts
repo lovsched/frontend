@@ -81,10 +81,19 @@ async function archiveEvent(event: Event) {
 }
 
 async function unarchiveEvent(event: Event) {
-  await axios.delete(`/archives/${event.id}`);
+  const unarchive: Event = {
+    title: event.title,
+    startTime: event.startTime,
+    location: event.location,
+    organizer: event.organizer,
+    maxAttendees: event.maxAttendees.toString(),
+    attendees: event.attendees,
+  };
+
   await axios.post('/events', {
-    data: event,
+    data: unarchive,
   });
+  await axios.delete(`/archives/${event.id}`);
 }
 
 async function signupForEvent(event: Event, attendeeID: string) {

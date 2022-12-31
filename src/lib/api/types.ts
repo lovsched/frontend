@@ -4,7 +4,7 @@ export interface Event {
   startTime: string;
   location: string;
   organizer?: Attendee | null;
-  maxAttendees: number;
+  maxAttendees: number | string;
   attendees?: Attendee[];
 }
 

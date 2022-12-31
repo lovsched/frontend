@@ -40,6 +40,7 @@
     };
 
     try {
+      console.log(event);
       await createEvent(event);
       closeModal();
       reloadEvents();
