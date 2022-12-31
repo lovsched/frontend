@@ -18,27 +18,25 @@
         Lovski Dogodki
       {/if}
     </h1>
-    <Modal small={true} close={closeModal} button={false}>
-      <Content class="modal">
-        <CreateEventModal
-          closeModal={() => (closeModal = true)}
-          reloadEvents={() => reloadEvents()}
-        />
-      </Content>
-      <div>
-        {#if archive}
-          <button on:click={() => navigate('/', { replace: true })}
-            >Domov</button
-          >
-        {:else}
+    <div>
+      {#if archive}
+        <button on:click={() => navigate('/', { replace: true })}>Domov</button>
+      {:else}
+        <Modal small={true} close={closeModal} button={false}>
+          <Content class="modal">
+            <CreateEventModal
+              closeModal={() => (closeModal = true)}
+              reloadEvents={() => reloadEvents()}
+            />
+          </Content>
           <Trigger>
             <button>Nov dogodek</button>
           </Trigger>
-          <button on:click={() => navigate('/archive', { replace: true })}
-            >Arhiv</button
-          >
-        {/if}
-      </div>
-    </Modal>
+        </Modal>
+        <button on:click={() => navigate('/archive', { replace: true })}
+          >Arhiv</button
+        >
+      {/if}
+    </div>
   </div>
 </main>

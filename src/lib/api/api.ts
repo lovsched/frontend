@@ -7,6 +7,7 @@ import type {
   Event,
   MigrateEvent,
   CreateEvent,
+  EditEvent,
 } from './types';
 
 axios.defaults.baseURL =
@@ -52,6 +53,12 @@ async function getAttendees(): Promise<Attendee[]> {
 
 async function createEvent(event: CreateEvent) {
   await axios.post('/events', {
+    data: event,
+  });
+}
+
+async function editEvent(event: EditEvent, id: string) {
+  await axios.put(`/events/${id}`, {
     data: event,
   });
 }
@@ -114,6 +121,7 @@ export {
   getEvents,
   getArchivedEvents,
   createEvent,
+  editEvent,
   archiveEvent,
   unarchiveEvent,
   signupForEvent,

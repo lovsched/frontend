@@ -5,8 +5,10 @@
   import SpacerM from './spacers/SpacerM.svelte';
   import { Modal, Content, Trigger } from 'sv-popup';
   import CreateAttendeeModal from './CreateAttendeeModal.svelte';
+  import EditEventModal from './EditEventModal.svelte';
 
   let closeModal: boolean = false;
+  let closeEditModal: boolean = false;
   let closeAttendeesModal: boolean = false;
 
   export let event: Event;
@@ -17,7 +19,18 @@
   <div class="event-card">
     <div class="event-header">
       <p class="event-title">{event.title}</p>
-      <button>Uredi</button>
+      <Modal small={true} close={closeEditModal} button={false}>
+        <Content class="modal">
+          <EditEventModal
+            {event}
+            closeModal={() => (closeEditModal = true)}
+            reloadEvents={() => reloadEvents()}
+          />
+        </Content>
+        <div>
+          <Trigger><button>Uredi</button></Trigger>
+        </div>
+      </Modal>
     </div>
     <SpacerL />
     <p>{event.startTime}</p>

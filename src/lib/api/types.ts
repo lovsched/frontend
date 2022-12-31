@@ -14,8 +14,15 @@ export interface CreateEvent {
   startTime: string;
   location: string;
   organizer: string;
-  maxAttendees: number;
+  maxAttendees: number | string;
   attendees?: string[];
+}
+
+export interface EditEvent {
+  title: string;
+  startTime: string;
+  location: string;
+  maxAttendees: number | string;
 }
 
 export interface Attendee {
