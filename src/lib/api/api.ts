@@ -14,7 +14,9 @@ axios.defaults.baseURL =
   import.meta.env.VITE_API_URL || 'http://localhost:1337/api';
 
 async function getEvents(): Promise<Event[]> {
-  const response = await axios.get<{ data: ApiEvent[] }>('/events?populate=*');
+  const response = await axios.get<{ data: ApiEvent[] }>(
+    '/events?populate=*&pagination%5BpageSize%5D=100',
+  );
 
   const events: Event[] = [];
 
@@ -27,7 +29,7 @@ async function getEvents(): Promise<Event[]> {
 
 async function getArchivedEvents(): Promise<Event[]> {
   const response = await axios.get<{ data: ApiEvent[] }>(
-    '/archives?populate=*',
+    '/archives?populate=*&pagination%5BpageSize%5D=100',
   );
 
   const events: Event[] = [];
@@ -40,7 +42,9 @@ async function getArchivedEvents(): Promise<Event[]> {
 }
 
 async function getAttendees(): Promise<Attendee[]> {
-  const response = await axios.get<{ data: ApiAttendee[] }>('/attendees');
+  const response = await axios.get<{ data: ApiAttendee[] }>(
+    '/attendees?sort=name&pagination%5BpageSize%5D=100',
+  );
 
   const attendees: Attendee[] = [];
 
